@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { Login as authLogin } from '../store/authSlice'
+import { login as authLogin } from '../store/authSlice'
 import { Button, Input, Logo } from './index'
 import { useDispatch } from 'react-redux'
 import authService from '../appWrite/auth'
