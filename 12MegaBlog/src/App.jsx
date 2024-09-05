@@ -4,6 +4,7 @@ import './App.css'
 import authService from './appWrite/auth'
 import {login, logout} from './store/authSlice'
 import { Footer, Header } from './componets'
+import { Outlet } from 'react-router-dom'
 
 function App() {
   
@@ -29,7 +30,7 @@ function App() {
       <div className='w-full block'>
         <Header/>
         <main>
-           Todo: {/* <Outlet/> */}
+           Todo: <Outlet/>
         </main>
         <Footer/>
       </div>

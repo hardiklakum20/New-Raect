@@ -9,16 +9,17 @@ function PostForm({ post }) {
 
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
         defaultValues: {
-            title: post?.title || '',
-            slug: post?.slug || '',
-            content: post?.content || '',
-            status: post?.status || 'active',
+            title: post?.title || "",
+            slug: post?.$id || "",
+            content: post?.content || "",
+            status: post?.status || "active",
         }
     })
 
     const navigate = useNavigate()
+    
+    const userData = useSelector((state) => state.auth.userData);
 
-    const userData = useSelector(state => state.user.userData)
 
     const submit = async (data) => {
         if (post) {
@@ -58,7 +59,7 @@ function PostForm({ post }) {
             return value
                 .trim()
                 .toLowerCase()
-                .replace(/^[a-zA-Z\d\s]+/g, '-')
+                .replace(/[^a-zA-Z\d\s]+/g, '-')
                 .replace(/\s/g, '-')
         } else {
             return ''
@@ -68,7 +69,7 @@ function PostForm({ post }) {
     React.useEffect(() => {
         const subscription = watch((value, { name }) => {
             if (name === 'title') {
-                setValue('slug', slugTransform(value.title, { shouldValidate: true }))
+                setValue('slug', slugTransform(value.title), { shouldValidate: true })
             }
         })
 
