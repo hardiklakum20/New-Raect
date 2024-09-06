@@ -5,6 +5,8 @@ import { login } from '../store/authSlice'
 import { Button, Input, Logo } from './index'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
 function SignUp() {
 
@@ -12,6 +14,7 @@ function SignUp() {
     const dispatch = useDispatch()
     const [error, setError] = useState("")
     const { register, handleSubmit } = useForm()
+    const [passwordVisible, SetPasswordVisible] = useState(false)
 
     const create = async (data) => {
         setError("")
@@ -25,6 +28,10 @@ function SignUp() {
         } catch (error) {
             setError(error.message)
         }
+    }
+
+    const togglePassword = () => {
+        SetPasswordVisible(!passwordVisible)
     }
 
     return (
@@ -47,7 +54,7 @@ function SignUp() {
                 </p>
                 {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
                 <form onSubmit={handleSubmit(create)}>
-                    <div className='space-y-4'>
+                    <div className='space-y-4 relative'>
                         <Input label="Full Name:" type="text" placeholder="Enter YourFull Name" {...register("name", { required: true })} />
                         <Input label="Email:" placeholder="Enter Your Email" type="email"
                             {...register("email", {
@@ -57,7 +64,8 @@ function SignUp() {
                                         "Email address must be a valid address"
                                 }
                             })} />
-                        <Input label="Password:" type="password" placeholder="Enter Your Password" {...register("password", { required: true })} />
+                        <Input label="Password:" type={passwordVisible ? "text": "password"} placeholder="Enter Your Password" {...register("password", { required: true })} />
+                        <FontAwesomeIcon  icon={passwordVisible ? faEye: faEyeSlash} className='absolute bottom-[68px] right-4 cursor-pointer' onClick={togglePassword}/>
                         <Button type='submit' className='w-full'>Create Account</Button>
                     </div>
                 </form>

@@ -5,6 +5,9 @@ import { Button, Input, Logo } from './index'
 import { useDispatch } from 'react-redux'
 import authService from '../appWrite/auth'
 import { useForm } from 'react-hook-form'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faEye, faEyeSlash} from '@fortawesome/free-regular-svg-icons';
+import { icon } from '@fortawesome/fontawesome-svg-core'
 
 function Login() {
 
@@ -13,6 +16,7 @@ function Login() {
 
     const { register, handleSubmit } = useForm()
     const [error, setError] = useState("")
+    const [passwordVisible, SetPasswordVisible] = useState(false)
 
     const login = async (data) => {
         setError("")
@@ -27,6 +31,10 @@ function Login() {
         } catch (error) {
             setError(error.message)
         }
+    }
+
+    const togglePassword = () => {
+        SetPasswordVisible(!passwordVisible);
     }
 
     return (
@@ -48,7 +56,7 @@ function Login() {
                     </Link>
                 </p>
                 {error && <p className='text-red-500 mt-8 text-center'>{error}</p>}
-                <form onSubmit={handleSubmit(login)} className='mt-8'>
+                <form onSubmit={handleSubmit(login)} className='mt-8 relative'>
                     <div className='space-y-5'>
                         <Input label="Email:" placeholder= "Enter Your Email" type="email" 
                         {...register("email", {required: true,
@@ -56,8 +64,9 @@ function Login() {
                         "Email address must be a valid address"}
                         })}/>
 
-                        <Input label="Password:" type="password" placeholder="Enter Your Password" 
-                        {...register("password", {required: true})}/>
+                        <Input label="Password:" type={passwordVisible ?"text" :"password"} placeholder="Enter Your Password" 
+                        {...register("password", {required: true})}/> 
+                        <FontAwesomeIcon icon={passwordVisible ? faEye:faEyeSlash} className='absolute bottom-1/3 right-4 cursor-pointer' onClick={togglePassword} />
                         <Button type='submit' className='w-full'>Sign in</Button>
                     </div>
                 </form>
